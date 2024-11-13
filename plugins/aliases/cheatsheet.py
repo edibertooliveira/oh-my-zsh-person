@@ -2,7 +2,6 @@
 import sys
 import itertools
 import termcolor
-import argparse
 
 def parse(line):
     left = line[0:line.find('=')].strip()
@@ -15,7 +14,6 @@ def parse(line):
 
 def cheatsheet(lines):
     exps = [ parse(line) for line in lines ]
-    exps.sort(key=lambda exp:exp[2])
     cheatsheet = {'_default': []}
     for key, group in itertools.groupby(exps, lambda exp:exp[2]):
         group_list = [ item for item in group ]
@@ -28,7 +26,7 @@ def cheatsheet(lines):
         target_aliases.extend(group_list)
     return cheatsheet
 
-def pretty_print_group(key, aliases, highlight=None, only_groupname=False):
+def pretty_print_group(key, aliases, highlight=None):
     if len(aliases) == 0:
         return
     group_hl_formatter = lambda g, hl: termcolor.colored(hl, 'yellow').join([termcolor.colored(part, 'red') for part in ('[%s]' % g).split(hl)])
@@ -37,33 +35,21 @@ def pretty_print_group(key, aliases, highlight=None, only_groupname=False):
     alias_formatter = lambda alias: termcolor.colored('\t%s = %s' % alias[0:2], 'green')
     if highlight and len(highlight)>0:
         print (group_hl_formatter(key, highlight))
-        if not only_groupname:
-            print ('\n'.join([alias_hl_formatter(alias, highlight) for alias in aliases]))
+        print ('\n'.join([alias_hl_formatter(alias, highlight) for alias in aliases]))
     else:
         print (group_formatter(key))
-        if not only_groupname:
-            print ('\n'.join([alias_formatter(alias) for alias in aliases]))
+        print ('\n'.join([alias_formatter(alias) for alias in aliases]))
     print ('')
 
-def pretty_print(cheatsheet, wfilter, group_list=None, groups_only=False):
+def pretty_print(cheatsheet, wfilter):
     sorted_key = sorted(cheatsheet.keys())
     for key in sorted_key:
-        if group_list and key not in group_list:
-            continue
         aliases = cheatsheet.get(key)
         if not wfilter:
-            pretty_print_group(key, aliases, wfilter, groups_only)
+            pretty_print_group(key, aliases, wfilter)
         else:
             pretty_print_group(key, [ alias for alias in aliases if alias[0].find(wfilter)>-1 or alias[1].find(wfilter)>-1], wfilter)
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description="Pretty print aliases.", prog="als")
-    parser.add_argument('filter', nargs="*", metavar="<keyword>", help="search aliases matching keywords")
-    parser.add_argument('-g', '--group', dest="group_list", action='append', help="only print aliases in given groups")
-    parser.add_argument('--groups', dest='groups_only', action='store_true', help="only print alias groups")
-    args = parser.parse_args()
-
     lines = sys.stdin.readlines()
-    group_list = args.group_list or None
-    wfilter = " ".join(args.filter) or None
-    pretty_print(cheatsheet(lines), wfilter, group_list, args.groups_only)
+    pretty_print(cheatsheet(lines), sys.argv[1] if len(sys.argv)>1 else None)

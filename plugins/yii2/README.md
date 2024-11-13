@@ -1,7 +1,7 @@
 # Yii2 autocomplete plugin
 
-Adds autocomplete commands and subcommands for [yii](https://www.yiiframework.com/).
+* Adds autocomplete commands and subcommands for yii.
 
 ## Requirements
 
-Autocomplete works from directory where your `yii` file is contained.
+Autocomplete works from directory where your `yii` file contains.

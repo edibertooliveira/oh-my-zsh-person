@@ -1,5 +1,7 @@
 # Xcode
 
+## Description
+
 This plugin provides a few utilities that can help you on your daily use of Xcode and iOS development.
 
 To start using it, add the `xcode` plugin to your `plugins` array in `~/.zshrc`:

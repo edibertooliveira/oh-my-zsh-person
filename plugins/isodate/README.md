@@ -1,5 +1,7 @@
 # Isodate plugin
 
+**Maintainer:** [@Frani](https://github.com/frani)
+
 This plugin adds completion for the [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601),
 as well as some aliases for common Date commands.
 
@@ -8,8 +10,6 @@ To use it, add `isodate` to the plugins array in your zshrc file:
 ```zsh
 plugins=(... isodate)
 ```
-
-**Maintainer:** [@Frani](https://github.com/frani)
 
 ## Aliases
 

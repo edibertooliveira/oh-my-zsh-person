@@ -7,9 +7,7 @@ function kubectx_prompt_info() {
 
   [[ -n "$current_ctx" ]] || return
 
-  # Use value in associative array if it exists, otherwise fall back to the context name
-  #
-  # Note: we need to escape the % character in the prompt string when coming directly from
-  # the context name, as it could contain a % character.
+  # use value in associative array if it exists
+  # otherwise fall back to the context name
   echo "${kubectx_mapping[$current_ctx]:-${current_ctx:gs/%/%%}}"
 }

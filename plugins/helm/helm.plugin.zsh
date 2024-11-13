@@ -11,9 +11,3 @@ else
   source "$ZSH_CACHE_DIR/completions/_helm"
   helm completion zsh | tee "$ZSH_CACHE_DIR/completions/_helm" >/dev/null &|
 fi
-
-alias h='helm'
-alias hin='helm install'
-alias hun='helm uninstall'
-alias hse='helm search'
-alias hup='helm upgrade'
